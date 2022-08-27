@@ -12,18 +12,23 @@ const currentWeatherstack = ({ Latitude, Longitude, Location }, callback) => {
     } else if (body.error) {
       callback("Please provide proper URL!", undefined);
     } else {
+      let wantedKey = Object.keys(body.forecast);
       let temp = {};
       temp.Location = Location;
       // console.log(body.current.weather_descriptions[0]);
       temp.data =
-        "The weather is " +
+        "Weather - " +
         body.current.weather_descriptions[0] +
         ". It is currently " +
         body.current.temperature +
-        " degrees out. There is " +
-        body.current.precip +
-        "% chance of rain.";
-      console.log(temp);
+        "F (Fahrenheit Degrees). There is " +
+        body.current.precip * 100 +
+        "% chance of rain. The Minimum and Maximum temperatures that can be observed are " +
+        body.forecast[wantedKey].mintemp +
+        "F and " +
+        body.forecast[wantedKey].maxtemp +
+        "F respectively.";
+      // console.log(temp);
       callback(undefined, temp);
     }
   });
